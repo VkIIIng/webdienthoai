@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewData["Title"] = "UserOrders";
+}
+
+@if (Model?.Any() == true)
+{
+    <section class="container py-5" style="max-width: 960px;">
+        <h1 class="text-center fs-2 fw-bold text-white mb-5">Orders</h1>
+        <div class="table-responsive rounded-3">
+            <table class="table table-bordered bg-dark text-white">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Address Shipping</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th>@item.OrderId</th>
+                            <td>@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.TotalAmount.ToString("N0", new System.Globalization.CultureInfo("vi-VN")) ₫</td>
+                            <td>@item.OrderStatus.StatusName</td>
+                            <td>@item.ShippingAddress</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+else
+{
+    <section class="container py-5" style="max-width: 960px;">
+        <div class="text-center p-5 bg-white rounded-3 shadow">
+            <i class="bi bi-cart-x fs-1 text-secondary mb-3 d-block"></i>
+            <h2 class="fs-4 fw-semibold text-secondary mb-3">No Orders Found</h2>
+            <p class="text-secondary fs-5">You haven't placed any orders yet. Start shopping to see your orders here!</p>
+            <a href="/" class="btn btn-primary px-4 py-2">Shop Now</a>
+        </div>
+    </section>
+}

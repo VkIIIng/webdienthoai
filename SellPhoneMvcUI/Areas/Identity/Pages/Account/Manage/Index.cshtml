@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+        <div class="card-body p-4 bg-dark">
+            <h2 class="card-title text-center mb-4 text-white">@ViewData["Title"]</h2>
+            <partial name="_StatusMessage" for="StatusMessage" />
+
+            <form id="profile-form" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label text-white" s>Username</label>
+                    <input asp-for="Username" class="form-control"style="background-color: gray !important" placeholder="Please choose your username." disabled />
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3">
+                    <label asp-for="Input.Address" class="form-label text-white">Address</label>
+                    <input asp-for="Input.Address" class="form-control" placeholder="Please enter your address." />
+                    <span asp-validation-for="Input.Address" class="text-danger d-block mt-1 small"></span>
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label asp-for="Input.LastName" class="form-label text-white">Last Name</label>
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Please enter your last name." />
+                    <span asp-validation-for="Input.LastName" class="text-danger d-block mt-1 small"></span>
+                </div>
+
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label asp-for="Input.FirstName" class="form-label text-white">First Name</label>
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="Please enter your first name." />
+                    <span asp-validation-for="Input.FirstName" class="text-danger d-block mt-1 small"></span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-3">
+                     <label asp-for="Input.PhoneNumber" class="form-label text-white">Phone Number</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger d-block mt-1 small"></span>
+                </div>
+
+                <!-- Submit Button -->
+        <button id="update-profile-button" type="submit" class="btn btn-primary w-100 " style="background-color:orange">Save</button>
+            </form>
+        </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

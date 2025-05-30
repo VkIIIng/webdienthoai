@@ -1,0 +1,44 @@
+﻿@page
+@model LoginWith2faModel
+
+@{
+    ViewData["Title"] = "Two-factor authentication";
+}
+
+<div class="min-h-screen bg-base-200 flex items-center justify-center">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h1 class="text-3xl font-bold text-center text-primary">@ViewData["Title"]</h1>
+            <hr class="border-base-300" />
+            <p class="text-base-content">Your login is protected with an authenticator app. Enter your authenticator code below.</p>
+            <form method="post" asp-route-returnUrl="@Model.ReturnUrl" class="space-y-4">
+                <input asp-for="RememberMe" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="alert alert-error" role="alert"></div>
+                <div class="form-control">
+                    <label asp-for="Input.TwoFactorCode" class="label">
+                        <span class="label-text">Two-Factor Code</span>
+                    </label>
+                    <input asp-for="Input.TwoFactorCode" class="input input-bordered w-full" autocomplete="off" />
+                    <span asp-validation-for="Input.TwoFactorCode" class="text-error text-sm mt-1"></span>
+                </div>
+                <div class="form-control">
+                    <label asp-for="Input.RememberMachine" class="label cursor-pointer">
+                        <span class="label-text">@Html.DisplayNameFor(m => m.Input.RememberMachine)</span>
+                        <input class="checkbox checkbox-primary" asp-for="Input.RememberMachine" />
+                    </label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary w-full">Log in</button>
+                </div>
+            </form>
+            <p class="mt-4">
+                Don't have access to your authenticator device? You can
+                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl" class="link link-hover text-primary">log in with a recovery code</a>.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,86 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .sidebar {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    }
+    .content {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .list-group-menu {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .list-group-item-menu {
+        border: none;
+        padding: 0;
+        background: transparent;
+        transition: transform 0.2s;
+    }
+    .list-group-item-menu:hover {
+        transform: translateY(-2px);
+    }
+    .menu-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        color: #0056b3;
+        font-weight: 500;
+        text-decoration: none;
+        background: #f8f9fa;
+        border-left: 4px solid transparent;
+        transition: all 0.3s;
+    }
+    .menu-link:hover {
+        background: #e9ecef;
+        border-left-color: #0056b3;
+        color: #003d82;
+    }
+    .menu-link.active {
+        background: #0056b3;
+        color: white;
+        border-left-color: #003d82;
+        font-weight: 600;
+    }
+    .svg-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+</style>
+
+<div class="container my-4">
+    <h2 class="fs-4 fw-bold text-primary">Change your account settings</h2>
+    <hr class="my-4 border-secondary-subtle" />
+    <div class="row g-4">
+        <div class="col-md-3">
+                <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-9">
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,104 @@
+﻿@model SellPhoneMvcUI.Models.DTOs.EditUserViewModel
+@{
+    ViewData["Title"] = "EditUser";
+    Layout = "_AdminLayout";
+}
+<div class="container py-5">
+    <div class="card w-100" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-body">
+            <h1 class="card-title h3 text-center mb-4">Edit User</h1>
+
+            <form id="editUserForm" action="@Url.Action("EditUser", "Admin", new { id = Model.Id })" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label for="FirstName" class="form-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" required />
+                    <span asp-validation-for="FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="LastName" class="form-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" required />
+                    <span asp-validation-for="LastName" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="Address" class="form-label">Address</label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="SelectedRole" class="form-label">Role</label>
+                    <select asp-for="SelectedRole" class="form-control">
+                        <option value="">-- Select Role --</option>
+                        @foreach (var role in Model.AllRoles)
+                        {
+                            <option value="@role">@role</option>
+                        }
+                    </select>
+                    <span asp-validation-for="SelectedRole" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                    <a asp-action="UserList" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#editUserForm").validate({
+            rules: {
+                FirstName: {
+                    required: true,
+                    maxlength: 50
+                },
+                LastName: {
+                    required: true,
+                    maxlength: 50
+                },
+                Address: {
+                    maxlength: 255
+                },
+                Email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                FirstName: {
+                    required: "Please enter the first name",
+                    maxlength: "First name must not exceed 50 characters"
+                },
+                LastName: {
+                    required: "Please enter the last name",
+                    maxlength: "Last name must not exceed 50 characters"
+                },
+                Address: {
+                    maxlength: "Address must not exceed 255 characters"
+                },
+                Email: {
+                    required: "Please enter the email",
+                    email: "Invalid email format"
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.appendTo(element.next(".text-danger"));
+            }
+        });
+    });
+</script>

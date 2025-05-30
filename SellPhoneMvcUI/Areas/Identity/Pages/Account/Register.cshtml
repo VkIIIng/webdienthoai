@@ -1,0 +1,70 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-transparent py-5">
+    <div class="card shadow-lg" style="max-width: 24rem; width: 100%;">
+        <div class="card-body">
+            <h1 class="display-6 fw-bold text-center  text-white">@ViewData["Title"]</h1>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="mt-4">
+                <h2 class="h5 fw-semibold mb-3">Create a new account.</h2>
+                <hr class="border-secondary" />
+                @if (!ModelState.IsValid)
+                {
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm border-danger text-white" style="background-color: #f8d7da; border-color: #dc3545;" role="alert"></div>
+                }
+                @* CUSTOM FIELDS *@
+                <div class="mb-3">
+                    <label asp-for="Input.FirstName" class="form-label">
+                        First Name
+                    </label>
+                    <input asp-for="Input.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="John" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.LastName" class="form-label">
+                        Last Name
+                    </label>
+                    <input asp-for="Input.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="Wick" />
+                    <span asp-validation-for="Input.LastName" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Address" class="form-label">
+                        Address
+                    </label>
+                    <input asp-for="Input.Address" class="form-control" autocomplete="address" aria-required="true" placeholder="80 Cao lo, P4, Q8" />
+                    <span asp-validation-for="Input.Address" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label">
+                        Email
+                    </label>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label">
+                        Password
+                    </label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <span asp-validation-for="Input.Password" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.ConfirmPassword" class="form-label">
+                        Confirm Password
+                    </label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger small mt-1 d-block"></span>
+                </div>
+                <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

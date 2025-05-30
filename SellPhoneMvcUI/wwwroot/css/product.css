@@ -1,0 +1,201 @@
+.filter-sidebar {
+    background: #1E2226;
+    border-radius: 12px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+
+.product-card {
+    background: #1E2226;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    height: auto;
+    border-radius: 12px 12px 0 0;
+}
+
+.price {
+    color: white;
+    font-weight: 600;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #dc2626;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background: #1E2226;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wishlist-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.rating-stars {
+    color: #fbbf24;
+}
+.btn-outline-light:hover{
+    background-color: #fbbf24;
+    color: white;
+}
+.category-badge {
+    background: #4b5563;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+.filter-group {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.color-option.selected::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 2px solid orange;
+    border-radius: 50%;
+}
+
+.sort-btn {
+    background: #1E2226;
+    border: 1px solid #e5e7eb;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    color: white;
+}
+
+.sort-btn:hover {
+    background: orange;
+}
+
+.cart-btn {
+    background: orange;
+    color: white;
+    border: none;
+    transition: all 0.2s;
+}
+
+.cart-btn:hover {
+    background: orange;
+    transform: translateY(-2px);
+}
+
+.product-image {
+    max-height: 400px;
+    object-fit: cover;
+}
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+.thumbnail:hover, .thumbnail.active {
+    opacity: 1;
+}
+
+.btn-cam{
+    background-color: #1E2226;
+    color: white;
+} 
+.btn-cam:hover{
+    background-color: orange;
+} 
+.text-muted{
+    color: white !important;
+}
+a{
+    text-decoration: none !important;
+}
+
+.cart-item img {
+    max-width: 100px;
+    height: auto;
+}
+
+.quantity-input {
+    width: 50px;
+}
+
+.cart-summary {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.form-control{
+    background-color: #4b5563;
+    color: white;
+} 
+.btn-primary{
+    border: 2px solid #4b5563; /* Đường viền 2px màu đen */
+
+    background-color: #4b5563;
+}
+.btn-primary:hover{
+    border: 2px solid #4b5563;
+    background-color:orange;
+}
+.btn-outline-secondary:hover{
+    background-color:orange;
+}
+.contact-section {
+    padding: 4rem 0;
+}
+.contact-map {
+    height: 400px;
+    width: 100%;
+    border: none;
+}
+.form-feedback {
+    color: #dc3545;
+    margin-top: 0.5rem;
+}
+.form-success {
+    color: #28a745;
+}

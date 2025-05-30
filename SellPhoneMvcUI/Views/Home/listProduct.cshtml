@@ -1,0 +1,180 @@
+﻿@model ProductDisplayModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container py-5">
+    <!-- Top Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0 text-white">Product Collection</h4>
+        <div class="d-flex gap-2 align-items-center">
+            <span class="text-muted">Sort by:</span>
+            <button class="sort-btn">
+                Newest <i class="bi bi-chevron-down ms-2"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row g-4">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3">
+            <div class="filter-sidebar p-4 shadow-sm">
+                <div class="filter-group">
+                    <h6 class="mb-3 text-white">Categories</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="electronics">
+                        <label class="form-check-label text-white" for="electronics">
+                            Electronics
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="clothing">
+                        <label class="form-check-label text-white" for="clothing">
+                            Clothing
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="accessories">
+                        <label class="form-check-label text-white" for="accessories">
+                            Accessories
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h6 class="mb-3 text-white">Price Range</h6>
+                    <input type="range" class="form-range" min="0" max="1000" value="500">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted text-white">$0</span>
+                        <span class="text-muted text-white">$1000</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h6 class="mb-3 text-white">Colors</h6>
+                    <div class="d-flex gap-2">
+                        <div class="color-option selected" style="background: #000000;"></div>
+                        <div class="color-option" style="background: #dc2626;"></div>
+                        <div class="color-option" style="background: #2563eb;"></div>
+                        <div class="color-option" style="background: #16a34a;"></div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h6 class="mb-3 text-white">Rating</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="rating" id="rating4">
+                        <label class="form-check-label text-white" for="rating4">
+                            <i class="bi bi-star-fill text-warning"></i> 4 & above
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="rating" id="rating3">
+                        <label class="form-check-label text-white" for="rating3">
+                            <i class="bi bi-star-fill text-warning"></i> 3 & above
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-light w-100 text-white">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+@*         @foreach (var product in Model.Products)
+        {
+            <div class="card bg-base-100 w-96 shadow-sm mb-4">
+                <figure>
+                    <img src="@product.ImageUrl" alt="@product.ProductName" />
+                </figure>
+                <div class="card-body">
+                    <a href="@Url.Action("ProductDetail", "Home", new {ProductId=product.ProductId})" class="card-title">
+                        @product.ProductName
+                        <a class="badge badge-secondary">@product.Category.CategoryName</a>
+                    </a>
+                    <p>@product.Description</p>
+                    <div class="card-actions justify-end">
+                        <button data-product-id="@product.ProductId" class="btn btn-primary add-to-cart">
+                            Add To Cart
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart"><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" /></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        } *@
+        <div class="col-lg-9">
+            <div class="row g-4">
+                @if (Model != null)
+                {
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col-md-4">
+                            <div class="product-card shadow-sm">
+                                <div class="position-relative">
+                                    <a href="@Url.Action("ProductDetail", "Home", new {ProductId=product.ProductId})">
+                                        <img src="@product.ImageUrl" alt="@product.ProductName"
+                                             class="product-image w-100" alt="Product">
+                                        <button class="wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="p-3">
+                                    <span class="category-badge mb-2 d-inline-block text-white">Electronics</span>
+                                    <a href="@Url.Action("ProductDetail", "Home", new {ProductId=product.ProductId})">
+                                        <h6 class="mb-1 text-white">@product.Category.CategoryName</h6>
+                                    </a>
+                                    <div class="rating-stars mb-2">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                        <span class="text-muted ms-2 text-white">(4.5)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="price text-white">@product.Price</span>
+                                        <button data-product-id="@product.ProductId" class="btn cart-btn card-actions  add-to-cart">
+                                            <i class="bi bi-cart-plus">Add to cart</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".add-to-cart").on("click", async function () {
+                var productId = $(this).data("product-id");
+                console.log("Button clicked, productId:", productId);
+
+                if (!isAuthenticated()) {
+                    window.location.href = "/Identity/Account/Login";
+                    return;
+                }
+
+                try {
+                    var response = await $.ajax({
+                        url: `/Cart/AddItem?productId=${productId}`,
+                        method: "GET"
+                    });
+                    console.log("Response:", response);
+                    $(".cartCount").html(response);
+                } catch (err) {
+                    console.error("Error:", err);
+                }
+            });
+
+            function isAuthenticated() {
+                var usernameEl = $("#username");
+                return usernameEl.length > 0; // Check if the element exists
+            }
+        });
+    </script>
+}

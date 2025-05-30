@@ -1,0 +1,15 @@
+﻿@page
+@model LockoutModel
+
+@{
+    ViewData["Title"] = "Locked out";
+}
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-transparent py-5">
+    <div class="card shadow-lg" style="max-width: 24rem; width: 100%;">
+        <div class="card-body text-center">
+            <h1 class="display-6 fw-bold text-danger">@ViewData["Title"]</h1>
+            <p class="text-danger">This account has been locked out, please try again later.</p>
+        </div>
+    </div>
+</div>

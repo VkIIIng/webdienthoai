@@ -1,0 +1,229 @@
+﻿@model ProductDisplayModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="title-section d-flex align-items-center text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Samsung</h1>
+                <p class="lead">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+                    odio vitae vestibulum vestibulum.
+                </p>
+                <a href="#" class="btn bg-cam text-uppercase fw-bold px-4 py-2 mt-3">Register Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Service 9 - Bootstrap Brain Component -->
+<section class="py-3 py-md-5 py-xl-8">
+    <section class="container py-5">
+        <div class="text-center mb-4 text-white ">
+            <h1 class="fw-bold text-uppercase">Top Phone</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
+                vestibulum vestibulum.
+            </p>
+        </div>
+            @if (Model != null)
+            {
+                <div class="row g-4">
+                    <!-- Thêm thẻ row để chứa các cột -->
+                    @foreach (var product in Model.Products.Take(3))
+                    {
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <!-- Mỗi sản phẩm là một cột -->
+                            <a href="@Url.Action("ProductDetail", "Home", new { ProductId = product.ProductId })">
+                                <div class="card text-center">
+                                    <img src="@product.ImageUrl" class="card-img-top img-fluid h-100" alt="Dancer 2">
+                                    <div class="card-body">
+                                        <h4 class="card-title text-white">@product.ProductName</h4>
+                                        <p class="card-text text-white">
+                                            @product.Description
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+    </section>
+    <section class="py-5 bg-dark text-white m-0">
+        <div class="container text-center">
+            <h2 class="fw-bold">PRICING</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
+                vestibulum vestibulum.
+            </p>
+            <div class="row g-4">
+                <!-- Basic Plan -->
+                <div class="col-md-4">
+                    <div class="card bg-cam text-white border-0 h-100">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <i class="bi bi-award display-4"></i>
+                            <h4 class="fw-bold mt-3">BASIC</h4>
+                            <p class="text-center flex-grow-1">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit.
+                            </p>
+                            <button class="btn btn-dark w-100"> $150.00 </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Professional Plan -->
+                <div class="col-md-4">
+                    <div class="card bg-cam text-white border-0 h-100">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <i class="bi bi-award display-4"></i>
+                            <h4 class="fw-bold mt-3">PROFESSIONAL</h4>
+                            <p class="text-center flex-grow-1">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit.
+                            </p>
+                            <button class="btn btn-dark w-100"> $200.00 </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ultimate Plan -->
+                <div class="col-md-4">
+                    <div class="card bg-cam text-white border-0 h-100">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <i class="bi bi-award display-4"></i>
+                            <h4 class="fw-bold mt-3">ULTIMATE</h4>
+                            <p class="text-center flex-grow-1">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit.
+                            </p>
+                            <button class="btn btn-dark w-100"> $250.00 </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dance Section -->
+    <section class="m-0 p-0">
+        <div class="container-fluid p-0">
+            <div class="row g-0 align-items-center">
+                <!-- Hàng 1 -->
+                <div class="col-md-6">
+                    <img src="./img/index/2.jpg" class="img-fluid w-100 h-100 object-fit-cover"
+                         alt="Dancer">
+                </div>
+                <div class="col-md-6 text-white p-5">
+                    <div class="p-4 rounded">
+                        <h2 class="fw-bold">AMAZING Phone</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio
+                            vitae vestibulum vestibulum.
+                        </p>
+                        <button class="btn btn-dark">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- Hàng 2 -->
+                <div class="col-md-6 text-white p-5">
+                    <div class="p-4 rounded">
+                        <h2 class="fw-bold">BEST Phone</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio
+                            vitae vestibulum vestibulum.
+                        </p>
+                        <button class="btn btn-dark">READ MORE</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="./img/index/2.jpg" class="img-fluid w-100 h-100 object-fit-cover"
+                         alt="Dancer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 bg-dark text-white text-center">
+        <div class="container">
+            <h2 class="fw-bold">OUR STATISTICS</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
+                vestibulum vestibulum.
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h3 class="fw-bold">1240+</h3>
+                    <p>Club</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="fw-bold">2000+</h3>
+                    <p>Active Member</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="fw-bold">1.000+</h3>
+                    <p>Community</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="position-relative text-center text-white">
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75"></div>
+        <img src="./img/index/3.jpg" class="img-fluid w-100" alt="Dancer">
+        <div class="position-absolute top-50 start-50 translate-middle px-3">
+            <p class="fs-5">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio
+                vitae vestibulum vestibulum.
+            </p>
+            <h3 class="fw-bold">HERBERT SIMON</h3>
+        </div>
+    </section>
+
+    <section class="subscribe-section">
+        <div class="container">
+            <div class="subscribe-content">
+                <h2 class="fw-bold">SUBSCRIBE</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>
+                    Vivamus lacinia odio vitae vestibulum vestibulum.
+                </p>
+                <form class="subscribe-form mt-4">
+                    <input type="email" class="form-control" placeholder="Your Email">
+                    <button type="submit" class="btn btn-subscribe">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $(".add-to-cart").on("click", async function () {
+                        var productId = $(this).data("product-id");
+                        console.log("Button clicked, productId:", productId);
+
+                        if (!isAuthenticated()) {
+                            window.location.href = "/Identity/Account/Login";
+                            return;
+                        }
+
+                        try {
+                            var response = await $.ajax({
+                                url: `/Cart/AddItem?productId=${productId}`,
+                                method: "GET"
+                            });
+                            console.log("Response:", response);
+                            $(".cartCount").html(response);
+                        } catch (err) {
+                            console.error("Error:", err);
+                        }
+                    });
+
+                    function isAuthenticated() {
+                        var usernameEl = $("#username");
+                        return usernameEl.length > 0; // Check if the element exists
+                    }
+                });
+            </script>
+        }
+    </section>
+

@@ -1,0 +1,106 @@
+﻿@model Cart
+@{
+    ViewData["Title"] = "GetUserCart";
+}
+
+@if(Model.CartItems.Count == 0)
+{
+    <section class="container py-3">
+        <div class="card shadow-lg mx-auto" style="max-width: 28rem;">
+            <div class="card-body text-center">
+                <svg class="w-6 h-6 text-muted mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.3L19 7H7.3" />
+                </svg>
+                <h2 class="card-title h3 mb-2">Your cart is empty</h2>
+                <p class="text-muted mb-3">Looks like you haven't added any items to your cart yet. Start shopping now!</p>
+                <a href="/home" class="btn btn-primary text-white btn-sm">Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+}
+else {
+
+    <div class="container py-5">
+        <h1 class="mb-5 text-white">Your Shopping Cart</h1>
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Cart Items -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @foreach (var cartItem in Model.CartItems)
+                        {
+                            <div class="row cart-item mb-3">
+                                <div class="col-md-3">
+                                    <img src="@cartItem.Product.ImageUrl" alt="@cartItem.Product.ProductName" class="img-fluid rounded">
+                                </div>
+                                <div class="col-md-5">
+                                    <h5 class="card-title">@cartItem.Product.ProductName</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <a href="/Cart/RemoveItem/?productId=@cartItem.Product.ProductId" id="decrement-button" data-input-counter-decrement="quantity-input" class="btn btn-outline-secondary btn-sm" type="button">
+                                            -
+                                        </a>
+                                        <input style="max-width:100px" type="text" class="form-control form-control-sm text-center quantity-input" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" class="input text-center" readonly value="@cartItem.Quantity" />
+                                        <a href="/Cart/AddItem/?productId=@cartItem.Product.ProductId&redirect=1" id="increment-button" data-input-counter-increment="quantity-input" class="btn btn-outline-secondary btn-sm" type="button">
+                                            +
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <p class="fw-bold">@cartItem.Product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</p>
+                                    <a href="/Cart/RemoveItem/?productId=@cartItem.Product.ProductId&removeAll=true" type="button" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <hr>
+                        }
+                    </div>
+                </div>
+                <!-- Continue Shopping Button -->
+                <div class="text-start mb-4 ">
+                    <a href="/home" class="btn  btn-cam">
+                        <i class="bi bi-arrow-left me-2 "></i>Continue Shopping
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Cart Summary -->
+                <div class="card cart-summary">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Order Summary</h5>
+                        @foreach (var cartItem in Model.CartItems)
+                        {
+                            <div class="flex justify-between">
+                                <span class="text-base-content/70"></span>
+                                <span class="font-medium">@(cartItem.Product.Price * cartItem.Quantity)</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>@cartItem.Product.ProductName</span>
+                                <span>@((cartItem.Product.Price * cartItem.Quantity).ToString("N2", new System.Globalization.CultureInfo("vi-VN"))) ₫</span>
+                            </div>
+                        }
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <strong>Total</strong>
+                            <strong>@Model.CartItems.Sum(cartItem => cartItem.Quantity * cartItem.Product.Price).ToString("N2", new System.Globalization.CultureInfo("vi-VN")) ₫</strong>
+                        </div>
+                        <a href="/Cart/Checkout" type="button" class="btn btn-primary w-100">Proceed to Checkout</a>
+                    </div>
+                </div>
+                <!-- Promo Code -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3 ">Apply Promo Code</h5>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Enter promo code">
+                            <button class="btn btn-outline-secondary" type="button">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

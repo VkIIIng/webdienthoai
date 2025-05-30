@@ -1,0 +1,134 @@
+﻿@model SellPhoneMvcUI.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+    Layout = "_AdminLayout";
+}
+
+<div class="container p-4">
+    <h1 class="h2 fw-bold mb-4 text-center">Edit Product</h1>
+    <div class="card shadow-lg mx-auto" style="max-width: 32rem;">
+        <div class="card-body">
+            <form id="editProductForm" action="@Url.Action("EditProduct", "Admin", new { id = Model.ProductId })" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" name="ProductName" value="@Model.ProductName" class="form-control" required />
+                    <span class="text-danger text-sm error-message" data-for="ProductName"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Brand</label>
+                    <input type="text" name="Brand" value="@Model.Brand" class="form-control" />
+                    <span class="text-danger text-sm error-message" data-for="Brand"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <input type="number" name="Price" value="@Model.Price" step="0.01" min="0" class="form-control" required />
+                    <span class="text-danger text-sm error-message" data-for="Price"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Stock Quantity</label>
+                    <input type="number" name="StockQuantity" value="@Model.StockQuantity" min="0" class="form-control" required />
+                    <span class="text-danger text-sm error-message" data-for="StockQuantity"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select name="CategoryId" class="form-select" required>
+                        <option value="">Select a category</option>
+                        @foreach (var category in ViewBag.Categories as List<SellPhoneMvcUI.Models.Category>)
+                        {
+                            <option value="@category.CategoryId" selected="@(category.CategoryId == Model.CategoryId ? "selected" : null)">@category.CategoryName</option>
+                        }
+                    </select>
+                    <span class="text-danger text-sm error-message" data-for="CategoryId"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="Description" class="form-control">@Model.Description</textarea>
+                    <span class="text-danger text-sm error-message" data-for="Description"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Image URL</label>
+                    <input type="url" name="ImageUrl" value="@Model.ImageUrl" class="form-control" />
+                    <span class="text-danger text-sm error-message" data-for="ImageUrl"></span>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="@Url.Action("ProductList", "Admin")" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#editProductForm").validate({
+            rules: {
+                ProductName: {
+                    required: true,
+                    maxlength: 100
+                },
+                Brand: {
+                    maxlength: 50
+                },
+                Price: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                StockQuantity: {
+                    required: true,
+                    digits: true,
+                    min: 0
+                },
+                CategoryId: {
+                    required: true
+                },
+                ImageUrl: {
+                    maxlength: 255,
+                    url: true
+                }
+            },
+            messages: {
+                ProductName: {
+                    required: "Please enter the product name",
+                    maxlength: "Product name must not exceed 100 characters"
+                },
+                Brand: {
+                    maxlength: "Brand must not exceed 50 characters"
+                },
+                Price: {
+                    required: "Please enter the price",
+                    number: "Price must be a number",
+                    min: "Price must not be less than 0"
+                },
+                StockQuantity: {
+                    required: "Please enter the stock quantity",
+                    digits: "Stock quantity must be an integer",
+                    min: "Stock quantity must not be less than 0"
+                },
+                CategoryId: {
+                    required: "Please select a category"
+                },
+                ImageUrl: {
+                    maxlength: "Image URL must not exceed 255 characters",
+                    url: "Invalid image URL"
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.appendTo(element.next(".error-message"));
+            }
+        });
+    });
+</script>
