@@ -1,45 +1,100 @@
-name: CI/CD for ASP.NET Core
+# File: .github/workflows/dotnet-ci-cd.yml
+name: .NET CI/CD with Docker
+
+# Trigger the workflow on push or pull request to the main branch
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+
+# Environment variables
+env:
+  DOCKER_IMAGE: my-dotnet-app:${{ github.sha }}
+  DOCKER_REGISTRY: docker.io
+  DOTNET_VERSION: '9.0' # Specify your .NET version here
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x' # Thay bằng phiên bản .NET của bạn
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Run tests
-      run: dotnet test --no-restore --verbosity normal
-    - name: Publish
-      run: dotnet publish --configuration Release --output ./publish
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-artifact
-        path: ./publish
-  deploy:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up .NET environment
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Step 3: Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Step 4: Build the .NET project
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # Step 5: Run tests
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+  docker-build-and-deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' # Only deploy on push to main
+
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: app-artifact
-        path: ./publish
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'your-app-name' # Thay bằng tên ứng dụng Azure của bạn
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # Lưu profile trong GitHub Secrets
-        package: ./publish
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up .NET environment
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Step 3: Build the .NET project
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # Step 4: Publish the .NET app
+      - name: Publish
+        run: dotnet publish --configuration Release --output ./publish
+
+      # Step 5: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 6: Log in to Docker Hub (or your registry)
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 7: Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
+          labels: |
+            org.opencontainers.image.title=my-dotnet-app
+            org.opencontainers.image.version=${{ github.sha }}
+
+      # Step 8: Deploy to Docker (example: run on a server)
+      - name: Deploy to Docker
+        run: |
+          docker pull ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
+          docker stop my-dotnet-app || true
+          docker rm my-dotnet-app || true
+          docker run -d --name my-dotnet-app -p 8080:80 ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
+
