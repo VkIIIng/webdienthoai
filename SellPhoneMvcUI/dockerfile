@@ -4,14 +4,14 @@ WORKDIR /src
 
 # Sao chép và kiểm tra tệp .csproj
 COPY *.csproj ./
-# Thêm lệnh để kiểm tra tệp được sao chép
-RUN ls -la && dotnet restore -v detailed
+# Nếu .csproj nằm trong thư mục con, thay bằng: COPY src/MyProject/*.csproj ./
+RUN ls -la  # Kiểm tra xem tệp .csproj có được sao chép không
+RUN dotnet restore -v detailed
 
 # Sao chép mã nguồn và xuất bản
 COPY . ./
 RUN dotnet publish -c Release -o /app/publish
-# Kiểm tra đầu ra publish (tùy chọn)
-RUN ls -la /app/publish
+RUN ls -la /app/publish  # Kiểm tra đầu ra publish
 
 # Giai đoạn runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
