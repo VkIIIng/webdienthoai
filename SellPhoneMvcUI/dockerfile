@@ -4,7 +4,6 @@ WORKDIR /src
 
 # Sao chép và kiểm tra tệp .csproj
 COPY *.csproj ./
-# Nếu .csproj nằm trong thư mục con, thay bằng: COPY src/MyProject/*.csproj ./
 RUN ls -la  # Kiểm tra xem tệp .csproj có được sao chép không
 RUN dotnet restore -v detailed
 
