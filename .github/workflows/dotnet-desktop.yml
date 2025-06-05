@@ -1,6 +1,5 @@
 name: .NET CI/CD with Docker
 
-# Trigger the workflow on push or pull request to the main branch
 on:
   push:
     branches:
@@ -9,7 +8,6 @@ on:
     branches:
       - main
 
-# Environment variables
 env:
   DOCKER_IMAGE: sellphonemvcui:${{ github.sha }}
   DOCKER_REGISTRY: docker.io
@@ -18,7 +16,6 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
@@ -56,66 +53,30 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' # Only deploy on push to main
-
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up .NET environment
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      # Step 3: Cache NuGet packages
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      # Step 4: Restore dependencies
-      - name: Restore dependencies
-        run: dotnet restore
-
-      # Step 5: Build the .NET project
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      # Step 6: Publish the .NET app
-      - name: Publish
-        run: dotnet publish --configuration Release --no-restore --output ./publish
-
-      # Step 7: Set up Docker Buildx
+      # Step 2: Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Step 8: Log in to Docker Hub
+      # Step 3: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 9: Build and push Docker image
+      # Step 4: Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./SellPhoneMvcUI/Dockerfile
+          file: ./Dockerfile  # Điều chỉnh nếu Dockerfile ở thư mục khác
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
           labels: |
             org.opencontainers.image.title=sellphonemvcui
             org.opencontainers.image.version=${{ github.sha }}
-
-      # Step 10: Deploy to Docker (example: run on a server)
-      - name: Deploy to Docker
-        run: |
-          docker pull ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
-          docker stop sellphonemvcui || true
-          docker rm sellphonemvcui || true
-          docker run -d --name sellphonemvcui -p 8080:80 ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}
