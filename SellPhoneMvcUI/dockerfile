@@ -2,15 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Sao chép tệp .sln và các tệp .csproj liên quan
-COPY *.sln ./
-COPY */*.csproj ./  # Sao chép .csproj từ các thư mục con, nếu có
-RUN ls -la  # Kiểm tra xem tệp .sln và .csproj có được sao chép không
-RUN if [ ! -f "*.sln" ]; then echo "ERROR: No .sln file found!"; exit 1; fi
+# Sao chép toàn bộ mã nguồn
+COPY . ./
+RUN ls -la  # Kiểm tra xem tệp .sln và các tệp khác có được sao chép không
+RUN if [ ! -f "SellPhoneMvcUI.sln" ]; then echo "ERROR: SellPhoneMvcUI.sln not found!"; exit 1; fi
 RUN dotnet restore -v detailed  # Khôi phục gói từ tệp .sln
 
-# Sao chép mã nguồn và xuất bản
-COPY . ./
+# Xuất bản ứng dụng
 RUN dotnet publish -c Release -o /app/publish
 RUN ls -la /app/publish  # Kiểm tra đầu ra publish
 
