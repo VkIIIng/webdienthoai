@@ -1,3 +1,4 @@
+# Dockerfile (placed in SellPhoneMvcUI/)
 # Giai đoạn build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
@@ -5,11 +6,12 @@ WORKDIR /src
 # Sao chép toàn bộ mã nguồn
 COPY . ./
 RUN ls -la  # Kiểm tra xem tệp .sln và các tệp khác có được sao chép không
-RUN if [ ! -f "SellPhoneMvcUI.sln" ]; then echo "ERROR: SellPhoneMvcUI.sln not found!"; exit 1; fi
-RUN dotnet restore -v detailed  # Khôi phục gói từ tệp .sln
+RUN find /src -name "*.sln"  # Tìm và liệt kê tất cả tệp .sln để xác định tên chính xác
+RUN if [ ! -f "SellPhoneMvcUI/SellPhoneMvcUI.sln" ]; then echo "ERROR: SellPhoneMvcUI/SellPhoneMvcUI.sln not found!"; exit 1; fi
+RUN dotnet restore "SellPhoneMvcUI/SellPhoneMvcUI.sln" -v detailed  # Khôi phục gói từ tệp .sln với đường dẫn cụ thể
 
 # Xuất bản ứng dụng
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish "SellPhoneMvcUI/SellPhoneMvcUI.sln" -c Release -o /app/publish
 RUN ls -la /app/publish  # Kiểm tra đầu ra publish
 
 # Giai đoạn runtime
