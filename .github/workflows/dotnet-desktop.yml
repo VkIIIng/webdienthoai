@@ -72,31 +72,4 @@ jobs:
             org.opencontainers.image.title=sellphonemvcui
             org.opencontainers.image.version=${{ github.sha }}
 
-# Dockerfile (placed in SellPhoneMvcUI/)
-# Giai đoạn build
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /src
 
-# Sao chép toàn bộ mã nguồn
-COPY . ./
-RUN ls -la  # Kiểm tra xem tệp .sln và các tệp khác có được sao chép không
-RUN if [ ! -f "SellPhoneMvcUI.sln" ]; then echo "ERROR: SellPhoneMvcUI.sln not found!"; exit 1; fi
-RUN dotnet restore -v detailed  # Khôi phục gói từ tệp .sln
-
-# Xuất bản ứng dụng
-RUN dotnet publish -c Release -o /app/publish
-RUN ls -la /app/publish  # Kiểm tra đầu ra publish
-
-# Giai đoạn runtime
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
-WORKDIR /app
-
-# Sao chép kết quả từ giai đoạn build
-COPY --from=build /app/publish ./
-
-# Cấu hình cổng
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
-
-# Chạy ứng dụng
-ENTRYPOINT ["dotnet", "SellPhoneMvcUI.dll"]
