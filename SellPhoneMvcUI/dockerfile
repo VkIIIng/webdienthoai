@@ -1,18 +1,33 @@
+# Giai đoạn build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
+# Sao chép và khôi phục gói
 COPY *.csproj ./
-RUN dotnet restore
+RUN dotnet restore -v detailed
 
+# Sao chép mã nguồn và xuất bản
 COPY . ./
 RUN dotnet publish -c Release -o /app/publish
+# Kiểm tra đầu ra (tùy chọn, để debug)
+RUN ls /app/publish
 
+# Giai đoạn runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 
+# Sao chép kết quả từ giai đoạn build
 COPY --from=build /app/publish ./
 
+# Cấu hình cổng
+ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
-EXPOSE 443
+# Nếu cần HTTPS, bỏ comment các dòng sau và cung cấp chứng chỉ
+# COPY certificates/ /app/certificates/
+# ENV ASPNETCORE_URLS=https://+:443;http://+:8080
+# ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/cert.pfx
+# ENV ASPNETCORE_Kestrel__Certificates__Default__Password=your_password
+# EXPOSE 443
 
+# Chạy ứng dụng
 ENTRYPOINT ["dotnet", "SellPhoneMvcUI.dll"]
