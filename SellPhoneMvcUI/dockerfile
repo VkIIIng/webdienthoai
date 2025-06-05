@@ -2,10 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Sao chép và kiểm tra tệp .csproj
-COPY *.csproj ./
+# Sao chép tệp .csproj cụ thể và kiểm tra
+COPY SellPhoneMvcUI.csproj ./
 RUN ls -la  # Kiểm tra xem tệp .csproj có được sao chép không
-RUN if [ -z "$(ls -A *.csproj)" ]; then echo "ERROR: No .csproj files found!"; exit 1; fi
+RUN if [ ! -f "SellPhoneMvcUI.csproj" ]; then echo "ERROR: SellPhoneMvcUI.csproj not found!"; exit 1; fi
 RUN dotnet restore -v detailed
 
 # Sao chép mã nguồn và xuất bản
